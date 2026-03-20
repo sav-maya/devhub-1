@@ -2,7 +2,7 @@
 
 Serve lakehouse data through Lakebase Autoscaling Postgres so your applications can query it with sub-10ms latency. This creates a synced table — a managed copy of your Unity Catalog table in Lakebase that stays up to date automatically.
 
-> This recipe is for **Lakebase Autoscaling** (projects/branches/endpoints with scale-to-zero). For Lakebase Provisioned (manually scaled instances), see the Provisioned Reverse ETL recipe (coming soon).
+> This recipe is for **Lakebase Autoscaling** (projects/branches/endpoints with scale-to-zero).
 
 ### When to use this
 
@@ -24,16 +24,6 @@ Serve lakehouse data through Lakebase Autoscaling Postgres so your applications 
 > ALTER TABLE <catalog>.<schema>.<table> SET TBLPROPERTIES (delta.enableChangeDataFeed = true);
 > ```
 
-### Sync throughput
-
-Autoscaling CUs are physically 8x smaller than Provisioned CUs, so per-CU throughput differs:
-
-| Mode                                     | Rows/sec per CU |
-| ---------------------------------------- | --------------- |
-| **Snapshot** (initial + full refresh)    | ~2,000          |
-| **Triggered / Continuous** (incremental) | ~150            |
-
-> A 10x speedup for large-table snapshot sync (writing Postgres pages directly, leveraging separation of storage and compute) is coming for Autoscaling only.
 
 ### 1. Create a synced table
 
